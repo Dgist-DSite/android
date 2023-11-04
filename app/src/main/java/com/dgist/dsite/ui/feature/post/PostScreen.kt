@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.dgist.dsite.R
 import com.dgist.dsite.components.theme.Body2
 import com.dgist.dsite.components.theme.Body3
@@ -37,7 +38,7 @@ import java.time.LocalDateTime
 
 @Composable
 fun PostScreen(
-    changeScreen: (NavGroup) -> Unit
+    navController: NavController
 ) { 
     val data = mutableListOf<PostData>()
     for (i in 1..30) {

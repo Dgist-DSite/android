@@ -12,6 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
 import com.dgist.dsite.components.theme.DgistTheme
 import com.dgist.dsite.ui.feature.post.PostScreen
 import kotlinx.coroutines.launch
@@ -20,25 +21,14 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val navController = rememberNavController()
             DgistTheme {
-                var nowScreen by remember { mutableStateOf(NavGroup.Post.id) }
-
-                val coroutineScope = rememberCoroutineScope()
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = DgistTheme.color.White
                 ) {
-                    fun onChangeScreen(screen: NavGroup) {
-                        coroutineScope.launch {
-                            nowScreen = screen.id
-                        }
-                    }
-                    val changeScreen: (NavGroup) -> Unit = { onChangeScreen(it) }
-                    when (nowScreen) {
-                        NavGroup.Post.id -> PostScreen(changeScreen)
-                        else -> Text(text = "하이2")
-                    }
+                    NavigationGraph(navController = navController)
                 }
             }
         }

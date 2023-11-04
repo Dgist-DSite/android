@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -39,7 +40,10 @@ import java.time.LocalDateTime
 @Composable
 fun PostScreen(
     navController: NavController
-) { 
+) {
+    LaunchedEffect(key1 = true) {
+        navController.navigate(NavGroup.Post.POST_INFO.replace("{id}", "3"))
+    }
     val data = mutableListOf<PostData>()
     for (i in 1..30) {
         data.add(

@@ -67,7 +67,8 @@ fun PostInfoScreen(
         DgistOgTag(
             image = painterResource(id = R.drawable.ic_launcher_background),
             title = "개발자들은 대체 글을 어디서나올까...",
-            url = "velog.com"
+            content = "ㅁㅁㅁ",
+            url = "velog.com",
         )
         Spacer(modifier = Modifier.height(24.dp))
         Body3(

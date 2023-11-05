@@ -27,6 +27,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,7 +38,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import com.dgist.dsite.R
 import com.dgist.dsite.components.modifier.dgistClickable
 import com.dgist.dsite.components.ogtag.DgistOgTag
@@ -46,27 +49,27 @@ import com.dgist.dsite.components.theme.Body2
 import com.dgist.dsite.components.theme.Body3
 import com.dgist.dsite.components.theme.DgistTheme
 import com.dgist.dsite.components.theme.RegularBody3
+import com.dgist.dsite.remote.response.post.PostResponse
 import com.dgist.dsite.ui.root.NavGroup
 import com.dgist.dsite.utiles.TAG
 import java.time.LocalDateTime
 
 @Composable
 fun PostScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: PostViewModel = viewModel()
 ) {
     val category = listOf("안드로이드", "웹", "iOS", "서버", "게임", "임베디드", "창업", "기타")
 
+    val state = viewModel.uiState.collectAsState().value
+
     var nowCategory by remember { mutableStateOf("") }
-    val data = mutableListOf<PostData>()
-    for (i in 1..30) {
-        data.add(
-            PostData(
-                name = "테스트 $i",
-                thumbnail = "히히",
-                tag = "안드로이드",
-                time = LocalDateTime.now()
-            )
-        )
+    val data = state.data
+
+
+
+    LaunchedEffect(key1 = true) {
+        viewModel.load(null)
     }
     Scaffold(
         floatingActionButton = {
@@ -111,6 +114,8 @@ fun PostScreen(
                             } else {
                                 category[it]
                             }
+                            Log.d(TAG, "PostScreen: 엄엄")
+                            viewModel.load(if (nowCategory == "") null else nowCategory)
                         }
                     }
                 }
@@ -170,7 +175,7 @@ private fun PostCategory(
 
 @Composable
 private fun PostBox(
-    data: PostData,
+    data: PostResponse,
     onClick: (id: Int) -> Unit
 ) {
     Surface(
@@ -179,7 +184,7 @@ private fun PostBox(
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .dgistClickable {
-                onClick(3)
+                onClick(data.id)
             },
         shape = DgistTheme.shape.middle,
         border = BorderStroke(1.dp,DgistTheme.color.SurfaceColor)
@@ -198,21 +203,22 @@ private fun PostBox(
                         modifier = Modifier
                             .size(40.dp)
                             .clip(CircleShape),
-                        painter = painterResource(id = R.drawable.ic_launcher_background),
+                        painter = painterResource(id = R.drawable.ic_user_image),
                         contentDescription = "유저 아이콘",
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Body2(text = "8954sood")
+                    Body2(text = data.userName)
                 }
                 DgistTag(modifier = Modifier.align(Alignment.CenterEnd)) {
-                    RegularBody3(text = "안드로이드")
+                    RegularBody3(text = data.category)
                 }
             }
             Spacer(modifier = Modifier.height(11.dp))
             DgistOgTag(
-                image = painterResource(id = R.drawable.ic_launcher_background),
-                title = "개발자들은 대체 글을 어디서나올까...",
-                url = "velog.com"
+                image = rememberAsyncImagePainter(model = data.image),
+                title = data.title,
+                content = data.description,
+                url = data.url
             )
             Spacer(modifier = Modifier.height(4.dp))
             RegularBody3(

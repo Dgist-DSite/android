@@ -23,6 +23,7 @@ fun DgistOgTag(
     modifier: Modifier = Modifier,
     image: Painter,
     title: String,
+    content: String,
     url: String
 ) {
     Column(
@@ -44,14 +45,19 @@ fun DgistOgTag(
             modifier = Modifier.padding(horizontal = 8.dp)
         ) {
             Spacer(modifier = Modifier.height(4.dp))
-            Body4(text = title)
             Body4(
-                text = "여기를 눌러 링크를 확인하세요.",
-                textColor = Color(0xFF909090)
+                text = title,
+                maxLines = 1
+            )
+            Body4(
+                text = content,
+                textColor = Color(0xFF909090),
+                maxLines = 1
             )
             Body5(
                 text = url,
-                textColor = Color(0xFF878787)
+                textColor = Color(0xFF878787),
+                maxLines = 1
             )
             Spacer(modifier = Modifier.height(4.dp))
         }

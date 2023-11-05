@@ -1,49 +1,62 @@
 package com.dgist.dsite.ui.feature.post
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.dgist.dsite.R
+import com.dgist.dsite.components.modifier.dgistClickable
+import com.dgist.dsite.components.ogtag.DgistOgTag
+import com.dgist.dsite.components.tag.DgistTag
 import com.dgist.dsite.components.theme.Body2
 import com.dgist.dsite.components.theme.Body3
-import com.dgist.dsite.components.theme.Body4
-import com.dgist.dsite.components.theme.Body5
-import com.dgist.dsite.components.theme.SemiBoldBody5
 import com.dgist.dsite.components.theme.DgistTheme
 import com.dgist.dsite.components.theme.RegularBody3
 import com.dgist.dsite.ui.root.NavGroup
+import com.dgist.dsite.utiles.TAG
 import java.time.LocalDateTime
 
 @Composable
 fun PostScreen(
     navController: NavController
 ) {
-    LaunchedEffect(key1 = true) {
-        navController.navigate(NavGroup.Post.POST_INFO.replace("{id}", "3"))
-    }
+    val category = listOf("안드로이드", "웹", "iOS", "서버", "게임", "임베디드", "창업", "기타")
+
+    var nowCategory by remember { mutableStateOf("") }
     val data = mutableListOf<PostData>()
     for (i in 1..30) {
         data.add(
@@ -55,16 +68,64 @@ fun PostScreen(
             )
         )
     }
-    LazyColumn(
-        state = rememberLazyListState()
-    ) {
-        itemsIndexed(
-            data
-        ) { index, item ->
-            if (index != 0) {
-                Spacer(modifier = Modifier.height(25.dp))
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(
+                modifier = Modifier.size(70.dp),
+                onClick = {
+
+                },
+                shape = RoundedCornerShape(28.dp),
+                containerColor = DgistTheme.color.White
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_button_flaoting),
+                    contentDescription = "floating button"
+                )
             }
-            PostBox(item)
+        }
+    ) { padding ->
+        LazyColumn(
+            modifier = Modifier.padding(padding),
+            state = rememberLazyListState()
+        ) {
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
+                Body3(
+                    modifier = Modifier.padding(start = 16.dp),
+                    text = "필터"
+                )
+                Spacer(modifier = Modifier.height(2.dp))
+                LazyRow(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 16.dp)
+                ) {
+                    items(category.size) {
+                        if (it != 0) {
+                            Spacer(modifier = Modifier.width(8.dp))
+                        }
+                        PostCategory(tag = category[it], clicked = category[it] == nowCategory) {
+                            nowCategory = if (category[it] == nowCategory) {
+                                ""
+                            } else {
+                                category[it]
+                            }
+                        }
+                    }
+                }
+                Spacer(modifier = Modifier.height(24.dp))
+            }
+            itemsIndexed(
+                data
+            ) { index, item ->
+                if (index != 0) {
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+                PostBox(item) {
+                    navController.navigate(NavGroup.Post.POST_INFO.replace("{id}", it.toString()))
+                }
+            }
         }
     }
 }
@@ -77,69 +138,87 @@ data class PostData(
 )
 
 @Composable
+private fun PostCategory(
+    tag: String,
+    clicked: Boolean,
+    onClick: () -> Unit,
+) {
+    val color = if (clicked) DgistTheme.color.Black else Color(0xFFB2B2B2)
+    Surface(
+        modifier = Modifier.dgistClickable(
+            rippleEnable = true,
+            onClick = onClick
+        ),
+        shape = DgistTheme.shape.middle,
+        border = BorderStroke(1.dp, color)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    vertical = 8.dp,
+                    horizontal = 10.dp
+                )
+        ) {
+            Body3(
+                text = tag,
+                textColor = color
+            )
+        }
+    }
+}
+
+@Composable
 private fun PostBox(
-    data: PostData
+    data: PostData,
+    onClick: (id: Int) -> Unit
 ) {
     Surface(
         modifier = Modifier
 //            .height(220.dp)
             .fillMaxWidth()
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = 16.dp)
+            .dgistClickable {
+                onClick(3)
+            },
         shape = DgistTheme.shape.middle,
         border = BorderStroke(1.dp,DgistTheme.color.SurfaceColor)
     ) {
         Column(
             modifier = Modifier
-                .padding(12.dp)
+                .padding(horizontal = 12.dp, vertical = 8.dp)
         ){
-            Row {
-                Image(
-                    modifier = Modifier
-                        .padding(vertical = 3.dp)
-                        .size(35.dp)
-                        .clip(CircleShape),
-                    painter = painterResource(id = R.drawable.ic_launcher_foreground),
-                    contentDescription = "앱 아이콘",
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Column {
-                    SemiBoldBody5(text = "안드로이드")
+            Box(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clip(CircleShape),
+                        painter = painterResource(id = R.drawable.ic_launcher_background),
+                        contentDescription = "유저 아이콘",
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
                     Body2(text = "8954sood")
-                    RegularBody3(text = "2시간 전")
+                }
+                DgistTag(modifier = Modifier.align(Alignment.CenterEnd)) {
+                    RegularBody3(text = "안드로이드")
                 }
             }
             Spacer(modifier = Modifier.height(11.dp))
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color(0xFFF6F6F6))
-                    .clip(DgistTheme.shape.small)
-            ) {
-                Image(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(104.dp),
-                    painter = painterResource(id = R.drawable.ic_launcher_background),
-                    contentDescription = "이미지",
-                    contentScale = ContentScale.Crop
-                )
-                Column(
-                    modifier = Modifier.padding(horizontal = 10.dp)
-                ) {
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Body4(text = "개발자들은 대체 글을 어디서 나올까...")
-                    Body4(
-                        text = "여기를 눌러 링크를 확인하세요.",
-                        textColor = Color(0xFF909090)
-                    )
-                    Body5(
-                        text = "velog.com",
-                        textColor = Color(0xFF878787)
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                }
-            }
-            Spacer(modifier = Modifier.height(12.dp))
+            DgistOgTag(
+                image = painterResource(id = R.drawable.ic_launcher_background),
+                title = "개발자들은 대체 글을 어디서나올까...",
+                url = "velog.com"
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            RegularBody3(
+                text = "2시간 전",
+                textColor = Color(0xFF656D76)
+            )
         }
     }
 }

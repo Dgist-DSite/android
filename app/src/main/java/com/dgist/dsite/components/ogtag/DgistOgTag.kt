@@ -13,15 +13,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.dgist.dsite.R
 import com.dgist.dsite.components.theme.Body4
 import com.dgist.dsite.components.theme.Body5
 import com.dgist.dsite.components.theme.DgistTheme
 
 @Composable
-fun OgTag(
+fun DgistOgTag(
     modifier: Modifier = Modifier,
     image: Painter,
     title: String,

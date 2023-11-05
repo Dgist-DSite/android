@@ -2,7 +2,6 @@ package com.dgist.dsite.ui.feature.post.info
 
 import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,25 +14,18 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.dgist.dsite.R
 import com.dgist.dsite.components.figure.Cricle
 import com.dgist.dsite.components.modifier.dgistClickable
-import com.dgist.dsite.components.ogtag.OgTag
+import com.dgist.dsite.components.ogtag.DgistOgTag
 import com.dgist.dsite.components.tag.DgistTag
 import com.dgist.dsite.components.theme.Body1
 import com.dgist.dsite.components.theme.Body3
-import com.dgist.dsite.components.theme.Body4
-import com.dgist.dsite.components.theme.Body5
-import com.dgist.dsite.components.theme.DgistTheme
-import com.dgist.dsite.components.theme.RegularBody3
 import com.dgist.dsite.utiles.TAG
-import retrofit2.http.Body
 
 @Composable
 fun PostInfoScreen(
@@ -72,7 +64,7 @@ fun PostInfoScreen(
             }
         }
         Spacer(modifier = Modifier.height(24.dp))
-        OgTag(
+        DgistOgTag(
             image = painterResource(id = R.drawable.ic_launcher_background),
             title = "개발자들은 대체 글을 어디서나올까...",
             url = "velog.com"

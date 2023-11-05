@@ -73,7 +73,7 @@ fun PostScreen(
             FloatingActionButton(
                 modifier = Modifier.size(70.dp),
                 onClick = {
-
+                    navController.navigate(NavGroup.Post.POST_INSERT)
                 },
                 shape = RoundedCornerShape(28.dp),
                 containerColor = DgistTheme.color.White

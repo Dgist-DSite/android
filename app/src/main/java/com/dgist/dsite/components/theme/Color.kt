@@ -25,6 +25,7 @@ data class DgistColor (
 
     val SurfaceColor: Color = Color.Unspecified,
     val TimeColor: Color = Color.Unspecified,
+    val Orange: Color = Color.Unspecified
 )
 val DailyDiaryLightColor = DgistColor(
     White = Color(0xFFFFFFFF),
@@ -46,7 +47,9 @@ val DailyDiaryLightColor = DgistColor(
     Black40 = Color(0x66000000),
     Black20 = Color(0x33000000),
     SurfaceColor = Color(0xFFD0D7DE),
-    TimeColor = Color(0xFF656D76)
+    TimeColor = Color(0xFF656D76),
+
+    Orange = Color(0xFFF68809),
 
 )
 
@@ -69,6 +72,10 @@ val DailyDiaryDarkColor = DgistColor(
     Black60 = Color(0x99000000),
     Black40 = Color(0x66000000),
     Black20 = Color(0x33000000),
+    SurfaceColor = Color(0xFFD0D7DE),
+    TimeColor = Color(0xFF656D76),
+
+    Orange = Color(0xFFF68809),
 )
 
 internal val LocalColor = compositionLocalOf { DgistColor() }

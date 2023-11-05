@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.dgist.dsite.ui.feature.post.PostScreen
 import com.dgist.dsite.ui.feature.post.info.PostInfoScreen
+import com.dgist.dsite.ui.feature.post.insert.PostInsertScreen
 
 @Composable
 fun NavigationGraph(
@@ -20,11 +21,19 @@ fun NavigationGraph(
                 navController = navController
             )
         }
-        composable(NavGroup.Post.POST_INFO) { backStackEntry ->
+        composable(
+            route =  NavGroup.Post.POST_INFO
+        ) { backStackEntry ->
             PostInfoScreen(
                 navController = navController,
                 id = backStackEntry.arguments?.getString("id")?.toInt()!!
             )
+        }
+
+        composable(
+            route = NavGroup.Post.POST_INSERT
+        ) {
+            PostInsertScreen()
         }
     }
 

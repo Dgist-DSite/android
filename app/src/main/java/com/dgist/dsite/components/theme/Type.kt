@@ -114,6 +114,27 @@ fun Body1(
         overflow = overflow
     )
 }
+
+@Composable
+fun BoldBody1(
+    text: String,
+    textColor: Color = DgistTheme.color.Black,
+    modifier: Modifier = Modifier,
+    maxLines: Int = 15,
+    overflow: TextOverflow = TextOverflow.Clip
+) {
+    Text(
+        text = text,
+        color = textColor,
+        modifier = modifier,
+        style = DgistTypography.body1.copy(
+            fontWeight = FontWeight.Bold
+        ),
+        maxLines = maxLines,
+        overflow = overflow
+    )
+}
+
 @Composable
 fun Body2(
     text: String,

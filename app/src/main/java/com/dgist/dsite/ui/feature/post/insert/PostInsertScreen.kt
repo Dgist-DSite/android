@@ -65,7 +65,7 @@ fun PostInsertScreen(
     val state = viewModel.uiState.collectAsState().value
 
     var url by remember { mutableStateOf("") }
-    var category by remember { mutableStateOf("") }
+    var category by remember { mutableStateOf("안드로이드") }
     var content by remember { mutableStateOf("") }
 
     viewModel.sideEffect.collectAsSideEffect {
@@ -144,6 +144,7 @@ fun PostInsertScreen(
             Spacer(modifier = Modifier.height(4.dp))
             DgistButtonSelectMenu(
                 itemList = listOf("안드로이드", "웹", "iOS", "서버", "게임", "임베디드", "창업", "기타"),
+                hint = category,
                 onSelectItemListener =  {
                     category = it
                 }

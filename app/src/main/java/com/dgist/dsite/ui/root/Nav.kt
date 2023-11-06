@@ -7,4 +7,8 @@ sealed class NavGroup(val group: String) {
         const val POST_INFO = "info/{id}"
         const val POST_INSERT = "insert"
     }
+
+    object Setting: NavGroup("setting") {
+        const val SETTING = "setting"
+    }
 }

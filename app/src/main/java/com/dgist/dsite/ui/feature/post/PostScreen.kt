@@ -104,6 +104,21 @@ fun PostScreen(
         ) {
             item {
                 Spacer(modifier = Modifier.height(16.dp))
+                Box(modifier = Modifier
+                    .fillMaxWidth()
+                ) {
+                    Image(
+                        modifier = Modifier
+                            .padding(end = 16.dp)
+                            .align(Alignment.TopEnd)
+                            .dgistClickable {
+                                navController.navigate(NavGroup.Setting.SETTING)
+                            },
+                        painter = painterResource(id = R.drawable.ic_setting),
+                        contentDescription = "설정 창 이동 아아콘 "
+                    )
+                }
+                Spacer(modifier = Modifier.height(4.dp))
                 Body3(
                     modifier = Modifier.padding(start = 16.dp),
                     text = "필터"

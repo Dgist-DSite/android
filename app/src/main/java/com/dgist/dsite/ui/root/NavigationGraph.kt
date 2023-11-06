@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import com.dgist.dsite.ui.feature.post.PostScreen
 import com.dgist.dsite.ui.feature.post.info.PostInfoScreen
 import com.dgist.dsite.ui.feature.post.insert.PostInsertScreen
+import com.dgist.dsite.ui.feature.setting.SettingScreen
 
 @Composable
 fun NavigationGraph(
@@ -37,6 +38,15 @@ fun NavigationGraph(
                 navController = navController
             )
         }
+
+        composable(
+            route = NavGroup.Setting.SETTING
+        ) {
+            SettingScreen(
+                navController = navController
+            )
+        }
+
     }
 
 }

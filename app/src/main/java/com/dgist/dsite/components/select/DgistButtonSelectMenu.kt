@@ -55,7 +55,7 @@ fun DgistButtonSelectMenu(
                     buttonSize = coordinates.size.toSize()
                 }
                 .focusRequester(focusRequester),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFFBFF), contentColor = DgistTheme.color.Black),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFFFFF), contentColor = DgistTheme.color.Black),
             shape = RoundedCornerShape(15.dp),
             border = BorderStroke(1.5.dp, color = Color(0xFFC6CFD7)),
             contentPadding = PaddingValues(vertical = 20.dp, horizontal = 20.dp),
@@ -92,7 +92,7 @@ fun DgistButtonSelectMenu(
         ) {
             itemList.forEachIndexed { index, label ->
                 DropdownMenuItem(
-                    modifier = Modifier.background(Color(0xFFFFFBFF)),
+                    modifier = Modifier.background(Color(0xFFFFFFFF)),
                     text = {
                         Body1(text = label)
                     },

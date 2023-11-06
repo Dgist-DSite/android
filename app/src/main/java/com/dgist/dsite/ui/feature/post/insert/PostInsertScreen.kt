@@ -81,7 +81,8 @@ fun PostInsertScreen(
     }
 
     Scaffold(
-        modifier = Modifier.focusRequester(focusRequester),
+        modifier = Modifier
+            .focusRequester(focusRequester),
         bottomBar = {
             Box(
                 modifier = Modifier
@@ -122,12 +123,14 @@ fun PostInsertScreen(
                     textColor = DgistTheme.color.White
                 )
             }
-        }
+        },
+        containerColor = DgistTheme.color.White
     ) { padding ->
         Column(
             modifier = Modifier
                 .padding(padding)
                 .padding(horizontal = 16.dp)
+                .background(DgistTheme.color.White)
                 .fillMaxSize()
                 .pointerInput(Unit) {
                     detectTapGestures(onTap = {

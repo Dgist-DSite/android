@@ -1,5 +1,7 @@
 package com.dgist.dsite.utiles
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -37,4 +39,19 @@ internal fun <SIDE_EFFECT : Any> Flow<SIDE_EFFECT>.collectAsSideEffect(
             }
         }
     }
+}
+
+fun Context.shortToast(message: String) {
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+}
+
+fun Context.longToast(message: String) {
+    Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+}
+
+
+
+fun String.isValidHttpsUrl(): Boolean {
+    val urlRegex = """^https://[^\s/$.?#].[^\s]*$""".toRegex()
+    return urlRegex.matches(this)
 }

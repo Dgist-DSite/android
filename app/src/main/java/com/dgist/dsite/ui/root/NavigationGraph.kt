@@ -33,7 +33,9 @@ fun NavigationGraph(
         composable(
             route = NavGroup.Post.POST_INSERT
         ) {
-            PostInsertScreen()
+            PostInsertScreen(
+                navController = navController
+            )
         }
     }
 

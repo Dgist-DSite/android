@@ -36,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -52,6 +53,8 @@ import com.dgist.dsite.components.theme.RegularBody3
 import com.dgist.dsite.remote.response.post.PostResponse
 import com.dgist.dsite.ui.root.NavGroup
 import com.dgist.dsite.utiles.TAG
+import com.dgist.dsite.utiles.collectAsSideEffect
+import com.dgist.dsite.utiles.shortToast
 import java.time.LocalDateTime
 
 @Composable
@@ -62,11 +65,18 @@ fun PostScreen(
     val category = listOf("안드로이드", "웹", "iOS", "서버", "게임", "임베디드", "창업", "기타")
 
     val state = viewModel.uiState.collectAsState().value
+    val context = LocalContext.current
 
     var nowCategory by remember { mutableStateOf("") }
     val data = state.data
 
-
+    viewModel.sideEffect.collectAsSideEffect {
+        when(it) {
+            is PostSideEffect.ToastError -> {
+                context.shortToast(it.message)
+            }
+        }
+    }
 
     LaunchedEffect(key1 = true) {
         viewModel.load(null)

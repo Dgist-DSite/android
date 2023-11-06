@@ -17,6 +17,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -30,6 +31,7 @@ import com.dgist.dsite.components.theme.Body3
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
 import com.dgist.dsite.utiles.collectAsSideEffect
+import com.dgist.dsite.utiles.shortToast
 
 @Composable
 fun PostInfoScreen(
@@ -39,10 +41,12 @@ fun PostInfoScreen(
 ) {
 
     val state = viewModel.uiState.collectAsState().value
+
+    val context = LocalContext.current
     viewModel.sideEffect.collectAsSideEffect {
         when(it) {
             is PostInfoSideEffect.ToastError -> {
-
+                context.shortToast(it.message)
             }
         }
     }

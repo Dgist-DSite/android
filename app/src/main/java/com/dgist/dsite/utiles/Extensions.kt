@@ -49,9 +49,8 @@ fun Context.longToast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 }
 
-
+val urlRegex = """^https://[^\s/$.?#].[^\s]*$""".toRegex()
 
 fun String.isValidHttpsUrl(): Boolean {
-    val urlRegex = """^https://[^\s/$.?#].[^\s]*$""".toRegex()
     return urlRegex.matches(this)
 }

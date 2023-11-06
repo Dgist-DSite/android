@@ -41,7 +41,8 @@ class PostViewModel: BaseViewModel<PostState, PostSideEffect>(PostState()) {
                 )
             },
             errorAction = {
-                sendSideEffect(PostSideEffect.ToastError(it))
+                val message = if (it == "NOT_FOUND") "찾을 수 없습니다." else it
+                sendSideEffect(PostSideEffect.ToastError(message))
             }
         ).launchIn(viewModelScope)
     }

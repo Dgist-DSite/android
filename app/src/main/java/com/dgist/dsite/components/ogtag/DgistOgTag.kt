@@ -1,5 +1,7 @@
 package com.dgist.dsite.components.ogtag
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -13,7 +15,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.dgist.dsite.components.modifier.dgistClickable
 import com.dgist.dsite.components.theme.Body4
 import com.dgist.dsite.components.theme.Body5
 import com.dgist.dsite.components.theme.DgistTheme
@@ -26,12 +30,20 @@ fun DgistOgTag(
     content: String,
     url: String
 ) {
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .background(Color(0xFFF6F6F6))
             .clip(DgistTheme.shape.small)
             .then(modifier)
+            .dgistClickable(
+                rippleEnable = true
+            ) {
+                val i = Intent(Intent.ACTION_VIEW)
+                i.data = Uri.parse(url)
+                context.startActivity(i)
+            }
     ) {
         Image(
             modifier = Modifier
